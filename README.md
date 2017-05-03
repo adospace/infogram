@@ -5,5 +5,5 @@ Sample code:
 
 ```c#
 var client = new infogram_net.InfogramClient(Constants.API_KEY, Constants.API_SECRET);
-var infographics = client.GetInfographicsAsync();
+var infographics = await client.GetInfographicsAsync();
 ```
