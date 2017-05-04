@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using infogram_net.Elements;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,6 +162,30 @@ namespace infogram_net
             await UpdateInfographicAsync(infographic.Id, infographic.ThemeId, content, publish, publishMode, password, title, width, copyright);
         }
 
+        public async Task UpdateInfographicAsync(Infographic infographic,
+            Element[] content,
+            bool? publish = null,
+            string publishMode = null,
+            string password = null,
+            string title = null,
+            int? width = null,
+            string copyright = null)
+        {
+            await UpdateInfographicAsync(infographic.Id, infographic.ThemeId, content != null ? JsonConvert.SerializeObject(content) : null, publish, publishMode, password, title, width, copyright);
+        }
+
+        public async Task UpdateInfographicAsync(Guid id, int themeId,
+            Element[] content,
+            bool? publish = null,
+            string publishMode = null,
+            string password = null,
+            string title = null,
+            int? width = null,
+            string copyright = null)
+        {
+            await UpdateInfographicAsync(id, themeId, content != null ? JsonConvert.SerializeObject(content) : null, publish, publishMode, password, title, width, copyright);
+        }
+
         public async Task<Infographic> CreateInfographic(int themeId, string content,
             bool? publish = null,
             string publishMode = null,
@@ -193,6 +218,23 @@ namespace infogram_net
             string res = await PostAsync($"infographics", listofParameters.ToArray());
 
             return JsonConvert.DeserializeObject<Infographic>(res);
+        }
+
+        public async Task<Infographic> CreateInfographic(int themeId, Element[] content,
+            bool? publish = null,
+            string publishMode = null,
+            string password = null,
+            string title = null,
+            int? width = null,
+            string copyright = null)
+        {
+            return await CreateInfographic(themeId, JsonConvert.SerializeObject(content),
+                publish,
+                publishMode,
+                password,
+                title,
+                width,
+                copyright);
         }
 
         public async Task DeleteInfographic(Guid id)
